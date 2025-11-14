@@ -2,17 +2,17 @@
 
 ➡️ Load audio files → Convert them to mel-spectrograms → Train a CNN → Evaluate → Predict → Export CSV.
 
-🔧 Step 0 — Setup
+## 🔧 Step 0 — Setup
 
 You define where the training and test audio are stored, and where the final CSV output will be saved.
 You also set a small configuration (like how much to augment audio).
 
-🎲 Step 1 — Import Libraries & Fix Randomness
+## 🎲 Step 1 — Import Libraries & Fix Randomness
 
 You import all the tools you need (PyTorch, NumPy, librosa, etc.).
 You also set a seed (42) so the results are reproducible and stable every run.
 
-🎛 Step 2 — Audio Augmentation
+## 🎛 Step 2 — Audio Augmentation
 
 You create a function that randomly modifies audio to make the model more robust.
 
@@ -32,11 +32,11 @@ given a fake reverb
 
 This effectively doubles your dataset and prevents overfitting.
 
-🎵 Step 3 — Convert Audio to Mel-Spectrograms
+## 🎵 Step 3 — Convert Audio to Mel-Spectrograms
 
 You load each .wav file, trim silence, optionally augment it, make sure it's 5 seconds long, and then convert it to a mel-spectrogram (image-like representation that CNNs understand).
 
-📦 Step 4 — Build Training & Test Feature Sets
+## 📦 Step 4 — Build Training & Test Feature Sets
 
 You scan your train/ folder where each subfolder is a class.
 
@@ -50,7 +50,7 @@ Optionally create an augmented version too.
 
 For test audio files, you just extract features (no labels).
 
-🏷 Step 5 — Encode Labels & Split Data
+## 🏷 Step 5 — Encode Labels & Split Data
 
 Since the model works with numbers, not text, you convert class names into integers.
 
@@ -60,11 +60,11 @@ Then you split the dataset:
 
 20% validation
 
-📚 Step 6 — Torch Dataset/Dataloader
+## 📚 Step 6 — Torch Dataset/Dataloader
 
 You wrap your spectrograms into PyTorch Datasets so they can be fed into the model in batches.
 
-🧠 Step 7 — Build a CNN Model
+## 🧠 Step 7 — Build a CNN Model
 
 You define a convolutional neural network that:
 
@@ -80,7 +80,7 @@ Outputs class scores
 
 This is your classifier.
 
-⚙️ Step 8 — Set Loss Function, Optimizer, Scheduler
+## ⚙️ Step 8 — Set Loss Function, Optimizer, Scheduler
 
 CrossEntropy with label smoothing
 
@@ -90,7 +90,7 @@ Learning rate scheduler that gradually reduces LR
 
 Training for up to 80 epochs
 
-🔥 Step 9 — Training Loop (with MixUp!)
+## 🔥 Step 9 — Training Loop (with MixUp!)
 
 For each training batch:
 
@@ -112,7 +112,7 @@ If the model improved → save checkpoint.
 
 If no improvement for too long → early stopping.
 
-🚀 Step 10 — Inference & Create Submission File
+# 🚀 Step 10 — Inference & Create Submission File
 
 Once training is complete:
 
