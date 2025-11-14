@@ -1,6 +1,4 @@
-
 # GAN Audio Generation - Improved for Local Run
-
 
 import os
 import random
@@ -9,7 +7,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchaudio
-import soundfile as sf  # Added for safe WAV file loading
+import soundfile as sf
+import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -235,15 +234,51 @@ def generate_audio_gan(generator, category_idx, num_samples, device, sample_rate
 
 
 def save_wav(wav, sample_rate, filename):
-    # wav: (B, n_samples) or (n_channels, n_samples)
+    # FIXED: Use soundfile instead of torchaudio to avoid FFmpeg dependency
     os.makedirs(os.path.dirname(filename) or '.', exist_ok=True)
-    # if batch, take first
-    if wav.dim() == 3:
+    
+    # Handle different tensor shapes and ensure proper format
+    if wav.dim() == 3:  # (batch, channels, samples)
         wav_to_save = wav[0]
-    else:
+    elif wav.dim() == 2:  # (channels, samples)
         wav_to_save = wav
-    torchaudio.save(filename, wav_to_save, sample_rate=sample_rate)
-    print(f"Saved to {filename}")
+    else:  # (samples,)
+        wav_to_save = wav.unsqueeze(0)
+    
+    # Convert to numpy and ensure proper shape for soundfile
+    wav_np = wav_to_save.numpy()
+    
+    # Make sure the audio data is in the right format
+    # Normalize to prevent clipping and ensure valid range
+    if wav_np.size > 0:
+        max_val = np.max(np.abs(wav_np))
+        if max_val > 0:
+            wav_np = wav_np / max_val * 0.9  # Scale to 90% to avoid clipping
+    
+    # Ensure the data is float32 and properly shaped
+    wav_np = wav_np.astype(np.float32)
+    
+    # If stereo (2 channels), transpose to (samples, channels) for soundfile
+    if wav_np.shape[0] == 2:
+        wav_np = wav_np.T
+    
+    # For mono audio, ensure it's 1D array
+    if wav_np.shape[0] == 1:
+        wav_np = wav_np.flatten()
+    
+    try:
+        # Save using soundfile - much more reliable than torchaudio
+        sf.write(filename, wav_np, sample_rate)
+        print(f"Saved to {filename}")
+    except Exception as e:
+        print(f"Error saving {filename}: {e}")
+        # Fallback: try to save with a different name
+        try:
+            backup_name = filename.replace('.wav', '_backup.wav')
+            sf.write(backup_name, wav_np, sample_rate)
+            print(f"Saved backup to {backup_name}")
+        except:
+            print("Could not save audio file")
 
 # ===============================================================================
 # 4. TRAINING LOOP
