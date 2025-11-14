@@ -1,51 +1,65 @@
-What This Does
-AI that creates new sounds from your audio examples.
+1. Get Ready 🛠️
+Load all the computer tools we need
 
-Quick Start
-Put audio in folders:
+Make sure we can read sound files and build AI brains
 
-text
-train/
-├── dog/
-│   └── barks.wav
-├── car/
-│   └── horns.wav
-Run:
+2. Organize Your Sounds 📁
+Look for folders with sounds (like "dog/", "car/")
 
-bash
-python gan_audio.py --data train/ --epochs 100
-Get new sounds in gan_generated_audio/ folder!
+Take each sound and turn it into a "sound picture" (spectrogram)
 
-How It Works
-Step 1: Turn Sound into Pictures
-Convert .wav files to spectrograms (sound images)
+Make all pictures the same size
 
-All images are same size: 128x512
+Remember which category each sound belongs to
 
-Step 2: Train Two AIs
-🎨 Generator AI - Creates fake sound pictures
-🔍 Discriminator AI - Spots fake vs real pictures
+3. Build Two AI Brains 🧠
+🎨 The Creator:
 
-They play a game: Generator tries to fool Discriminator, both get better!
+Takes random noise + a category (like "dog")
 
-Step 3: Make New Sounds
-Generator creates new spectrograms
+"Draws" new sound pictures
 
-Convert pictures back to .wav files
+Tries to make them look real
 
-Save new audio you can listen to
+🔍 The Detective:
 
-Command Options
---data folder/ - Where your audio is
+Looks at real and fake sound pictures
 
---epochs 100 - Training time (more = better quality)
+Guesses which ones are real
 
---batch_size 32 - How many files to learn from at once
+Learns to spot fakes
 
---play - Try to play generated audio
+4. The Training Game 🎯
+Round 1 - Train Detective:
 
-What You Get
-text
-📁 gan_generated_audio/
-   ├── dog_ep050.wav  ← New dog sounds!
-   └── car_ep050.wav  ← New car sounds!
+Show real pictures → "This is real!"
+
+Show fake pictures → "This is fake!"
+
+Detective learns the difference
+
+Round 2 - Train Creator:
+
+Make new fake pictures
+
+Try to fool the Detective
+
+Creator learns to make better fakes
+
+Repeat - Both get smarter each round!
+
+5. Make New Sounds 🔊
+Tell Creator what category we want
+
+It makes a new sound picture
+
+Turn that picture back into real sound
+
+Save as .wav file you can play
+
+6. Show Progress 📊
+Save new sound files every few rounds
+
+Save pictures to see improvement
+
+Watch the AI get better over time
