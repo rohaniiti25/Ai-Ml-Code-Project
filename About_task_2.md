@@ -1,9 +1,9 @@
-1. Get Ready 🛠️
-Load all the computer tools we need
+# 1. Get Ready
+🛠️ Load all the computer tools we need
 
 Make sure we can read sound files and build AI brains
 
-2. Organize Your Sounds 📁
+# 2. Organize Your Sounds 📁
 Look for folders with sounds (like "dog/", "car/")
 
 Take each sound and turn it into a "sound picture" (spectrogram)
@@ -12,7 +12,7 @@ Make all pictures the same size
 
 Remember which category each sound belongs to
 
-3. Build Two AI Brains 🧠
+# 3. Build Two AI Brains 🧠
 🎨 The Creator:
 
 Takes random noise + a category (like "dog")
@@ -29,7 +29,7 @@ Guesses which ones are real
 
 Learns to spot fakes
 
-4. The Training Game 🎯
+# 4. The Training Game 🎯
 Round 1 - Train Detective:
 
 Show real pictures → "This is real!"
@@ -48,7 +48,7 @@ Creator learns to make better fakes
 
 Repeat - Both get smarter each round!
 
-5. Make New Sounds 🔊
+# 5. Make New Sounds 🔊
 Tell Creator what category we want
 
 It makes a new sound picture
